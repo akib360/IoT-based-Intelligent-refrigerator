@@ -106,7 +106,7 @@ void loop() {
   }
 
   if(first_LED_CON ){
-    Blynk.notify("ESP8266 Alert - Temperature over 28C!");  
+    Blynk.notify("ফ্রিজের ডিম কিন্তু ফুরাই গেছে!! বউ এর ঝাটার বাড়ি না খেতে চাইলে এখুনি এক হালি ডিম কিনুন.");  
   }
  
 }
