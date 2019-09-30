@@ -12,7 +12,6 @@ Data is displayed at Blynk app
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
 
-
 char auth[] = "32f75fbea09b4ae3bec12b777b9c1185";
 
 char ssid[] = "akib";
@@ -25,30 +24,27 @@ int distance2 = 0;
 int distance3 = 0;
 int distance4 = 0;
 
+int a, b, c, d;
 
 int thresh = 15;
 
 Ultrasonic ultrasonic1(15, 13); //15>>D8(trig) 13>>D7(echo)
 Ultrasonic ultrasonic2(12, 14); //12>>D6(trig) 14>>D5(echo)
-Ultrasonic ultrasonic3(2, 0); //2>>D4(trig) 0>>D3(echo)
-Ultrasonic ultrasonic4(4, 5); //4>>D2(trig) 5>>D1(echo)
+Ultrasonic ultrasonic3(2, 0);   //2>>D4(trig) 0>>D3(echo)
+Ultrasonic ultrasonic4(4, 5);   //4>>D2(trig) 5>>D1(echo)
 
 WidgetLED LED0(V0);
 WidgetLED LED1(V1);
 WidgetLED LED2(V2);
 WidgetLED LED3(V3);
 
-
-
-
-
-void setup() {
+void setup(){
   Serial.begin(9600);
   Blynk.begin(auth, ssid, pass);
 
 }
 
-void loop() {
+void loop(){
   
   distance1 = ultrasonic1.distanceRead();
   distance2 = ultrasonic2.distanceRead();
@@ -60,6 +56,7 @@ void loop() {
   Serial.println(distance3);
   Serial.println(distance4);
   Blynk.run();
+  
 //for first LED
   long first_LED_CON = distance1<thresh && distance1>0;
   if(first_LED_CON){
@@ -68,18 +65,19 @@ void loop() {
   }
   else{
     LED0.off();
+    a = 1000;
   }
 
 
 //for second LED
   long second_LED_CON = distance2<thresh && distance2>0;
-
   if(second_LED_CON){
     Blynk.virtualWrite(V1,distance2);
     LED1.on();
   }
   else{
     LED1.off();
+    b = 2000;
   }
 
 
@@ -91,6 +89,7 @@ void loop() {
   }
   else{
     LED2.off();
+    c = 3000;
   }
 
 
@@ -100,12 +99,12 @@ void loop() {
     Blynk.virtualWrite(V3,distance4);
     LED3.on();
   }
-
   else{
     LED3.off();
+    d = 4000;
   }
 
-  if(first_LED_CON ){
+  if((a+b+c+d) == 10000){
     Blynk.notify("ফ্রিজের ডিম কিন্তু ফুরাই গেছে!! বউ এর ঝাটার বাড়ি না খেতে চাইলে এখুনি এক হালি ডিম কিনুন.");  
   }
  
